@@ -36,11 +36,26 @@ const appointments = [
         avatar: "https://i.imgur.com/LpaY82x.png",
       }
     }
+  },
+  {
+    id: 3,
+    time: "13pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 2,
+        name: "Tori Malcolm",
+        avatar: "https://i.imgur.com/Nmx0Qxo.png",
+      }
+    }
   }
 ];
 
 export default function Application(props) {
 const [day,setDay] =useState("Monday")
+const appointmentsToPassDown = appointments.map((appointment)=>{
+  return(<Appointment key={appointment.id} {...appointment}/> )
+})
 
   return (
     <main className="layout">
@@ -66,7 +81,8 @@ const [day,setDay] =useState("Monday")
         />
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {appointmentsToPassDown}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
 
