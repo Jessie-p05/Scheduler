@@ -1,61 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DayList from "./DayList"
 import Appointment from "components/Appointment"
 
 import "components/Application.scss";
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "13pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 2,
-        name: "Tori Malcolm",
-        avatar: "https://i.imgur.com/Nmx0Qxo.png",
-      }
-    }
-  }
-];
+import { getAppointmentsForDay } from "../helpers/selectors"
+const axios = require('axios').default;
 
 export default function Application(props) {
-const [day,setDay] =useState("Monday")
-const appointmentsToPassDown = appointments.map((appointment)=>{
-  return(<Appointment key={appointment.id} {...appointment}/> )
-})
+  // const [day,setDay] =useState("Monday");
+  // const [days,setDays] =useState([]);
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    // you may put the line below, but will have to remove/comment hardcoded appointments variable
+    appointments: {}
+  });
+
+  const setDay = day => setState({ ...state, day });
+  // const setDays = (days) => {
+  //   const newDays = setState(prev => ({ ...prev, days }));
+  //   return newDays;
+  // }
+  useEffect(() => {
+    Promise.all([
+      axios.get('http://localhost:8001/api/days'),
+      axios.get('http://localhost:8001/api/appointments'),
+      axios.get('http://localhost:8001/api/interviewers')
+    ]).then((all) => {
+      setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
+    })
+  }, [])
+
+  const dailyAppointments  = getAppointmentsForDay(state, state.day)
+
+  const appointmentsToPassDown = dailyAppointments.map((appointment) => {
+    return (<Appointment key={appointment.id} {...appointment} />)
+  })
 
   return (
     <main className="layout">
@@ -68,11 +48,10 @@ const appointmentsToPassDown = appointments.map((appointment)=>{
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
-            setDay={setDay}
+            days={ [...state.days] }
+            day={state.day}
+          setDay={setDay}
           />
-
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
