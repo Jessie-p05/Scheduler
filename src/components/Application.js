@@ -3,7 +3,7 @@ import DayList from "./DayList"
 import Appointment from "components/Appointment"
 
 import "components/Application.scss";
-import { getAppointmentsForDay } from "../helpers/selectors"
+import { getAppointmentsForDay, getInterview } from "../helpers/selectors"
 const axios = require('axios').default;
 
 export default function Application(props) {
@@ -13,7 +13,8 @@ export default function Application(props) {
     day: "Monday",
     days: [],
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
   const setDay = day => setState({ ...state, day });
@@ -33,8 +34,9 @@ export default function Application(props) {
 
   const dailyAppointments  = getAppointmentsForDay(state, state.day)
 
-  const appointmentsToPassDown = dailyAppointments.map((appointment) => {
-    return (<Appointment key={appointment.id} {...appointment} />)
+  const appointmentLists = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+    return (<Appointment key={appointment.id} {...appointment} interview={interview}/>)
   })
 
   return (
@@ -60,7 +62,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {appointmentsToPassDown}
+        {appointmentLists}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
