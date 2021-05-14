@@ -14,6 +14,29 @@ function getAppointmentsForDay(state, name) {
   }
   
 }
+// {  
+//   "student": "Lydia Miller-Jones",
+//   "interviewer": {  
+//     "id": 1,
+//     "name": "Sylvia Palmer",
+//     "avatar": "https://i.imgur.com/LpaY82x.png"
+//   }
 
+function getInterview(state, interview) {
+ if (!interview){
+   return null;
+ }
+ 
+ const interviewers = state.interviewers;
+ const interviews= {
+   student : interview.student,
+   interviewer : {
+     id : interview.interviewer,
+     name : interviewers[interview.interviewer].name,
+    avatar: interviewers[interview.interviewer].avatar
+   }
+} 
+return interviews
+}
 
-module.exports ={getAppointmentsForDay}
+module.exports ={getAppointmentsForDay,getInterview}
