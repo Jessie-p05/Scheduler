@@ -4,10 +4,10 @@ import "components/InterviewerList.scss";
 
 
 export default function InterviewerList (props) {
-  if(props.interviewers.length === 0) {
-    const interviewers = []
-    return interviewers;
-  }
+  // if(props.interviewers.length === 0) {
+  //   const interviewers = []
+  //   return interviewers;
+  // }
 
   const interviewers = props.interviewers.map((interviewer)=>{
     return(

@@ -12,15 +12,24 @@ function getAppointmentsForDay(state, name) {
   }else{
     return[];
   }
-  
 }
-// {  
-//   "student": "Lydia Miller-Jones",
-//   "interviewer": {  
-//     "id": 1,
-//     "name": "Sylvia Palmer",
-//     "avatar": "https://i.imgur.com/LpaY82x.png"
-//   }
+  
+function getInterviewersForDay(state, name) {
+  const filteredDays = state.days.filter(day => day.name === name);
+  // console.log(filteredDays)
+  if(filteredDays.length > 0){
+    const interviewersId= filteredDays[0].interviewers;
+    const interviewers=[];
+    // if()
+    interviewersId.forEach((id) =>{
+     interviewers.push(state.interviewers[id]); 
+    });
+    return interviewers;
+  }else{
+    return[];
+  }
+}
+  
 
 function getInterview(state, interview) {
  if (!interview){
@@ -39,4 +48,4 @@ function getInterview(state, interview) {
 return interviews
 }
 
-module.exports ={getAppointmentsForDay,getInterview}
+module.exports ={getAppointmentsForDay,getInterview, getInterviewersForDay}
