@@ -39,9 +39,14 @@ export default function useApplicationData() {
     //   ...state.appointments,
     //   [id]: appointment
     // };
-
+    let remainSpots;
     const [day] = state.days.filter(day => day.appointments.includes(id));
-    const remainSpots = state.days[day.id - 1].spots - 1;
+    if(state.appointments[id].interview) {
+      remainSpots = state.days[day.id - 1].spots;
+    } else {
+      remainSpots = state.days[day.id - 1].spots - 1;
+    }
+
     const newDays = state.days.map(ele => ele.id === day.id ? { ...ele, spots: remainSpots } : { ...ele })
     // console.log(newDays)    
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
