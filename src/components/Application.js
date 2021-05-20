@@ -16,7 +16,7 @@ export default function Application(props) {
 
   const interviewers = getInterviewersForDay(state, state.day);
   
-  //get all the appointments in a specific day
+  //get all the appointments of a selected day
   const appointments = getAppointmentsForDay(state, state.day).map(
     appointment => {
       return (
@@ -45,7 +45,6 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            // days={[...state.days]}
             days={state.days}
             day={state.day}
             setDay={setDay}

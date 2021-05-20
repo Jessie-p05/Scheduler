@@ -25,6 +25,7 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
   //function to save the change to appointment when creat a new appointment
   function save(name, interviewer) {
     const interview = {
@@ -36,6 +37,7 @@ export default function Appointment(props) {
       .then(()=> transition(SHOW))
       .catch(error => transition(ERROR_SAVE, true));
   }
+  
   //function to cancel a exist interview;
   function onDelete() {
     transition(CONFIRM)
@@ -55,7 +57,6 @@ export default function Appointment(props) {
   }
   
   function close(){
-  // transition(props.interview ? SHOW : EMPTY)
   back()
   }
 
@@ -100,7 +101,6 @@ export default function Appointment(props) {
       )}
       {mode === CREATE && (
         <Form
-          // appointment={props.appointment}
           interviewers={props.interviewers}
           onCancel={() => back(EMPTY)}
           onSave={save}
@@ -108,7 +108,6 @@ export default function Appointment(props) {
       )}
       {mode === EDIT && (
         <Form
-          // appointment={props.appointment}
           interviewers={props.interviewers}
           name={props.interview.student}
           interviewer={props.interview.interviewer.id}

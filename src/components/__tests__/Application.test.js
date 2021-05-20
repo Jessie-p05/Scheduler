@@ -10,20 +10,11 @@ import axios from 'axios';
 afterEach(cleanup);
 
 describe("Application", () => {
-
-  // it("defaults to Monday and changes the schedule when a new day is selected", () => {
-  //   const { getByText } = render(<Application />);
-
-  //   return waitForElement(() => getByText("Monday")).then(() => {
-  //     fireEvent.click(getByText("Tuesday"));
-  //     expect(getByText("Leopold Silvers")).toBeInTheDocument();
-  //   });
-  // });
+   
   it("changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
 
     await waitForElement(() => getByText("Monday"));
-
     fireEvent.click(getByText("Tuesday"));
 
     expect(getByText("Leopold Silvers")).toBeInTheDocument();
@@ -42,9 +33,11 @@ describe("Application", () => {
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Lydia Miller-Jones" }
     });
+
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
     fireEvent.click(getByText(appointment, "Save"));
+
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
 
@@ -60,12 +53,13 @@ describe("Application", () => {
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
     const appointments = getAllByTestId(container, "appointment");
-
     const appointment = appointments[1];
+
     fireEvent.click(getByAltText(appointment, "Delete"));
     expect(getByText(appointment, "Are you sure you would like to delete?")).toBeInTheDocument();
     fireEvent.click(getByText(appointment, "Confirm"));
     expect(getByText(appointment, "Deleting")).toBeInTheDocument();
+
     await waitForElement(() => getByAltText(appointment, "Add"));
 
     const day = getAllByTestId(container, "day").find(day =>
@@ -80,13 +74,14 @@ describe("Application", () => {
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
     const appointments = getAllByTestId(container, "appointment");
-
     const appointment = appointments[1];
+
     fireEvent.click(getByAltText(appointment, "Edit"));
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Archie Cohen-Jones" }
     });
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+
     fireEvent.click(getByText(appointment, "Save"));
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
   
@@ -104,8 +99,8 @@ describe("Application", () => {
     await waitForElement(() => getByText(container, "Archie Cohen"));
     
     const appointments = getAllByTestId(container, "appointment");
-    
     const appointment = appointments[1];
+    
     fireEvent.click(getByAltText(appointment, "Edit"));
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Archie Cohen-Jones" }
@@ -113,6 +108,7 @@ describe("Application", () => {
 
     axios.put.mockRejectedValueOnce();
     fireEvent.click(getByText(appointment, "Save"));
+
     await waitForElement(() => getByText(appointment,"Can not save"));
     expect(getByText(appointment, "Can not save")).toBeInTheDocument();
     fireEvent.click(getByAltText(appointment,"Close"));
@@ -125,11 +121,12 @@ describe("Application", () => {
     await waitForElement(() => getByText(container, "Archie Cohen"));
     
     const appointments = getAllByTestId(container, "appointment");
-    
     const appointment = appointments[1];
+    
     axios.delete.mockRejectedValueOnce();
     fireEvent.click(getByAltText(appointment, "Delete"));
     fireEvent.click(getByText(appointment, "Confirm"));
+    
     await waitForElement(() => getByText(appointment,"Can not delete"));
     // console.log(prettyDOM(appointment))
     expect(getByText(appointment, "Can not delete")).toBeInTheDocument();
