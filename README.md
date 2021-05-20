@@ -22,4 +22,4 @@ npm test
 npm run storybook
 ```
 ## ScreenShots
-![The whole Application](https://github.com/Jessie-p05/Scheduler/blob/master/docs/App.png?raw=true)
+!["The whole Application"](https://github.com/Jessie-p05/Scheduler/blob/master/docs/App.png?raw=true)
