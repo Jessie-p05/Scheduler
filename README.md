@@ -1,5 +1,5 @@
 # Interview Scheduler
-
+Interview Schedular is a one-page App to allow users book/edit/delete a appointment in a simple way.
 ## Setup
 
 Install dependencies with `npm install`.
